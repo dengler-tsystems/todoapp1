@@ -1,0 +1,7 @@
+# This file includes the changelog for the releases in the correct order
+databaseChangeLog:
+  - logicalFilePath: db.changelog-master
+  - include:
+      relativeToChangelogFile: true
+      file: initial_liquibase.yaml
+

@@ -1,0 +1,98 @@
+# this changelog was derived from 'latest_generated_liquibase.yaml' which was generated using liquibase maven pluging against existing postgres db
+databaseChangeLog:
+  - changeSet:
+      id: init-schema-todoscm
+      author: coderone
+      changes:
+        -  sql:
+             #dbms:  'h2,  postgres'
+             endDelimiter: ;
+             splitStatements:  true
+             sql:  CREATE SCHEMA IF NOT EXISTS todoscm
+  - changeSet:
+      id: create-todo-table
+      author: coderone
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            schemaName: "todoscm"
+            tableName: todo
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: todo_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: version
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title
+                  type: VARCHAR(256)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(256)
+              - column:
+                  constraints:
+                    nullable: true
+                  name: description
+                  type: TEXT
+              - column:
+                  constraints:
+                    nullable: true
+                  name: start_date
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: true
+                  name: due_date
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: true
+                  name: end_date
+                  type: TIMESTAMP WITHOUT TIME ZONE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: grp
+                  type: VARCHAR(256)
+            tableName: todo
+            schemaName: "todoscm"
+        - addUniqueConstraint:
+            columnNames: title
+            constraintName: todo_title_ukey
+            tableName: todo
+            schemaName: "todoscm"
+
+  - changeSet:
+      id: init-sequence
+      author: coderone
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          sequenceExists:
+            schemaName: "todoscm"
+            sequenceName: idgenerator
+      changes:
+        - createSequence:
+            sequenceName: idgenerator
+            schemaName: "todoscm"
+
+  - changeSet:
+      id: load-fake-data
+      author: coderone
+      sqlFile:
+        #schemaName: "todoscm"
+        path: todo-data.sql
