@@ -1,6 +1,8 @@
 package com.example.application.views.alltodos;
 
 import com.example.application.data.Todo;
+import com.example.application.data.TodoDto;
+import com.example.application.services.TodoDtoService;
 import com.example.application.services.TodoService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -41,7 +43,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
     private final String TODO_ID = "todoID";
     private final String TODO_EDIT_ROUTE_TEMPLATE = "/%s/edit";
 
-    private final Grid<Todo> grid = new Grid<>(Todo.class, false);
+    private final Grid<TodoDto> grid = new Grid<>(TodoDto.class, false);
 
     private TextField title;
     private TextField description;
@@ -55,13 +57,13 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
     private final Button cancel = new Button("Cancel");
     private final Button save = new Button("Save");
 
-    private final BeanValidationBinder<Todo> binder;
+    private final BeanValidationBinder<TodoDto> binder;
 
-    private Todo todo;
+    private TodoDto todo;
 
-    private final TodoService todoService;
+    private final TodoDtoService todoService;
 
-    public AllTODOsView(TodoService todoService) {
+    public AllTODOsView(TodoDtoService todoService) {
         this.todoService = todoService;
         addClassNames("all-tod-os-view");
 
@@ -97,7 +99,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         });
 
         // Configure Form
-        binder = new BeanValidationBinder<>(Todo.class);
+        binder = new BeanValidationBinder<>(TodoDto.class);
 
         // Bind fields. This is where you'd define e.g. validation rules
 
@@ -111,7 +113,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         save.addClickListener(e -> {
             try {
                 if (this.todo == null) {
-                    this.todo = new Todo();
+                    this.todo = new TodoDto();
                 }
                 binder.writeBean(this.todo);
                 todoService.update(this.todo);
@@ -126,6 +128,8 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
                 n.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } catch (ValidationException validationException) {
                 Notification.show("Failed to update the data. Check again that all values are valid");
+            } catch (RuntimeException runtimeException) {
+                Notification.show(runtimeException.toString());
             }
         });
     }
@@ -134,7 +138,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
     public void beforeEnter(BeforeEnterEvent event) {
         Optional<Long> todoId = event.getRouteParameters().get(TODO_ID).map(Long::parseLong);
         if (todoId.isPresent()) {
-            Optional<Todo> todoFromBackend = todoService.get(todoId.get());
+            Optional<TodoDto> todoFromBackend = todoService.get(todoId.get());
             if (todoFromBackend.isPresent()) {
                 populateForm(todoFromBackend.get());
             } else {
@@ -200,7 +204,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         populateForm(null);
     }
 
-    private void populateForm(Todo value) {
+    private void populateForm(TodoDto value) {
         this.todo = value;
         binder.readBean(this.todo);
 
