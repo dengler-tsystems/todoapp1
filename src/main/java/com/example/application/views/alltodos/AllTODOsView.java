@@ -1,10 +1,8 @@
 package com.example.application.views.alltodos;
 
-import com.example.application.data.Todo;
 import com.example.application.data.TodoDto;
 import com.example.application.data.TodoStatus;
 import com.example.application.services.TodoDtoService;
-import com.example.application.services.TodoService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -116,9 +114,10 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
             try {
                 if (this.todo == null) {
                     this.todo = new TodoDto();
+                    version.setValue("0");
                 }
                 binder.writeBean(this.todo);
-                todoService.update(this.todo);
+                todoService.upsert(this.todo);
                 clearForm();
                 refreshGrid();
                 Notification.show("Data updated");

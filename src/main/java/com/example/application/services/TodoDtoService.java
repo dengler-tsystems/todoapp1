@@ -30,20 +30,29 @@ public class TodoDtoService {
         return todoRef.map(this::convToDto);
     }
 
-    public TodoDto update(TodoDto dto) {
-        Optional<Todo> todoEntityRef = repository.findById(dto.getId());
-        Todo todoEntityFromDb = todoEntityRef.orElseThrow(RuntimeException::new);
-        if (todoEntityFromDb.getVersion() != dto.getVersion()) {
-            throw new ObjectOptimisticLockingFailureException(Todo.class.getName(), todoEntityFromDb.getId());
-        } else {
-            updateEntityData(dto, todoEntityFromDb, false);
-            int versionTodoEntityFromDb = todoEntityFromDb.getVersion();
+    public TodoDto upsert(TodoDto dto) {
+        if (dto.getId() == null) {
+            Todo newTodo = new Todo();
+            updateEntityData(dto, newTodo, false);
             // saveAndFlush is needed instead of save, if only save is used the DTO will contain the old version value
-            Todo updatedTodoEntity = repository.saveAndFlush(todoEntityFromDb);
-            System.out.println("version of todoEntityFromDb=" + versionTodoEntityFromDb);
-            System.out.println("version of updatedTodoEntity=" + updatedTodoEntity.getVersion());
+            Todo updatedTodoEntity = repository.saveAndFlush(newTodo);
             return convToDto(updatedTodoEntity);
+        } else {
+            Optional<Todo> todoEntityRef = repository.findById(dto.getId());
+            Todo todoEntityFromDb = todoEntityRef.orElseThrow(RuntimeException::new);
+            if (todoEntityFromDb.getVersion() != dto.getVersion()) {
+                throw new ObjectOptimisticLockingFailureException(Todo.class.getName(), todoEntityFromDb.getId());
+            } else {
+                updateEntityData(dto, todoEntityFromDb, false);
+                int versionTodoEntityFromDb = todoEntityFromDb.getVersion();
+                // saveAndFlush is needed instead of save, if only save is used the DTO will contain the old version value
+                Todo updatedTodoEntity = repository.saveAndFlush(todoEntityFromDb);
+                System.out.println("version of todoEntityFromDb=" + versionTodoEntityFromDb);
+                System.out.println("version of updatedTodoEntity=" + updatedTodoEntity.getVersion());
+                return convToDto(updatedTodoEntity);
+            }
         }
+
     }
 
     public void delete(Long id) {
