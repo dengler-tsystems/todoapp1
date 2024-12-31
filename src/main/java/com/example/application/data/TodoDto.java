@@ -9,7 +9,7 @@ public class TodoDto {
     private int version;
     private String title;
     private String description;
-    private String status;
+    private TodoStatus status;
     private LocalDate startDate;
     private LocalDate dueDate;
     private LocalDateTime endDate;
@@ -43,10 +43,10 @@ public class TodoDto {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getStatus() {
+    public TodoStatus getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(TodoStatus status) {
         this.status = status;
     }
     public LocalDate getStartDate() {

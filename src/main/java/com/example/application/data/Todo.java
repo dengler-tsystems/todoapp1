@@ -1,6 +1,8 @@
 package com.example.application.data;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
@@ -12,7 +14,8 @@ public class Todo extends AbstractEntity {
 
     private String title;
     private String description;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TodoStatus status;
     private LocalDate startDate;
     private LocalDate dueDate;
     private LocalDateTime endDate;
@@ -30,10 +33,10 @@ public class Todo extends AbstractEntity {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getStatus() {
+    public TodoStatus getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(TodoStatus status) {
         this.status = status;
     }
     public LocalDate getStartDate() {

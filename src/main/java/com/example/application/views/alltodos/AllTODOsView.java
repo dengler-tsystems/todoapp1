@@ -2,11 +2,13 @@ package com.example.application.views.alltodos;
 
 import com.example.application.data.Todo;
 import com.example.application.data.TodoDto;
+import com.example.application.data.TodoStatus;
 import com.example.application.services.TodoDtoService;
 import com.example.application.services.TodoService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -47,7 +49,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
 
     private TextField title;
     private TextField description;
-    private TextField status;
+    private ComboBox<TodoStatus> status;
     private DatePicker startDate;
     private DatePicker dueDate;
     private DateTimePicker endDate;
@@ -163,7 +165,8 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         FormLayout formLayout = new FormLayout();
         title = new TextField("Title");
         description = new TextField("Description");
-        status = new TextField("Status");
+        status = new ComboBox<>("Status");
+        status.setItems(TodoStatus.values());
         startDate = new DatePicker("Start Date");
         dueDate = new DatePicker("Due Date");
         endDate = new DateTimePicker("End Date");
