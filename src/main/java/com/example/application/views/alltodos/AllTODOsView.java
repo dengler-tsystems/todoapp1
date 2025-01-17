@@ -21,6 +21,7 @@ import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Menu;
@@ -83,6 +84,14 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         grid.addColumn("dueDate").setAutoWidth(true);
         grid.addColumn("endDate").setAutoWidth(true);
         grid.addColumn("grp").setAutoWidth(true);
+        grid.addColumn(
+                new NativeButtonRenderer<>("Remove",
+                        clickedItem -> {
+                            todoService.delete(clickedItem.getId());
+                            refreshGrid();
+                        })
+        ).setAutoWidth(true);
+
         grid.setItems(query -> todoService.list(
                 PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
                 .stream());
