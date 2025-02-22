@@ -17,6 +17,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -57,6 +58,8 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
 
     private final Button cancel = new Button("Cancel");
     private final Button save = new Button("Save");
+    private final Button updateAllTodosToDone = new Button("Update all Todos to done");
+    private final Button removeAllTodos = new Button("Remove all Todos");
 
     private final BeanValidationBinder<TodoDto> binder;
 
@@ -113,6 +116,18 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         // Bind fields. This is where you'd define e.g. validation rules
 
         binder.bindInstanceFields(this);
+
+        updateAllTodosToDone.addClickListener(e -> {
+            clearForm();
+            todoService.updateAllTodosToDone();
+            refreshGrid();
+        });
+
+        removeAllTodos.addClickListener(e -> {
+            clearForm();
+            todoService.removeAllTodos();
+            refreshGrid();
+        });
 
         cancel.addClickListener(e -> {
             clearForm();
@@ -199,9 +214,19 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(buttonLayout);
     }
 
+    private void createGlobalButtonLayout(Div wrapper) {
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setClassName("button-layout");
+        updateAllTodosToDone.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        removeAllTodos.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonLayout.add(updateAllTodosToDone, removeAllTodos);
+        wrapper.add(buttonLayout);
+    }
+
     private void createGridLayout(SplitLayout splitLayout) {
         Div wrapper = new Div();
         wrapper.setClassName("grid-wrapper");
+        createGlobalButtonLayout(wrapper);
         splitLayout.addToPrimary(wrapper);
         wrapper.add(grid);
     }

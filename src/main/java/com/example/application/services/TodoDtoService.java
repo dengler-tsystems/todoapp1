@@ -69,6 +69,14 @@ public class TodoDtoService {
         return convToDtoPage(pageable, todoPage);
     }
 
+    public void updateAllTodosToDone() {
+        repository.updateAllTodosToDone();
+    }
+
+    public void removeAllTodos() {
+        repository.removeAllTodos();
+    }
+
     public int count() {
         return (int) repository.count();
     }
