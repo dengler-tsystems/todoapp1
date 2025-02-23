@@ -1,6 +1,7 @@
 package com.example.application.data;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
@@ -8,6 +9,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@EntityListeners(AuditTrailListener.class)
 @Entity
 @Table(name = "todo", schema = "todoscm")
 public class Todo extends AbstractEntity {
@@ -64,4 +66,17 @@ public class Todo extends AbstractEntity {
         this.grp = grp;
     }
 
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "id='" + getId() + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", startDate=" + startDate +
+                ", dueDate=" + dueDate +
+                ", endDate=" + endDate +
+                ", grp='" + grp + '\'' +
+                '}';
+    }
 }
