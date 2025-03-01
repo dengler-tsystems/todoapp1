@@ -13,9 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,19 +73,9 @@ public class TodosExtApiRestController implements TodosApi {
         todo.setDescription(todoDto.getDescription());
         todo.setGrp(todoDto.getGrp());
         todo.status(ToDo.StatusEnum.valueOf(todoDto.getStatus().toString()));
-        ZoneOffset offset = ZoneOffset.of("+01:00"); // Replace with your desired offset
-        if (todoDto.getStartDate() != null) {
-            LocalDateTime dateTimeStartDate = todoDto.getStartDate().atStartOfDay();
-            todo.setStartDate(OffsetDateTime.of(dateTimeStartDate, offset));
-        }
-        if (todoDto.getEndDate() != null) {
-            LocalDateTime dateTimeEndDate = todoDto.getEndDate();
-            todo.setEndDate(OffsetDateTime.from(OffsetDateTime.of(dateTimeEndDate, offset)));
-        }
-        if (todoDto.getDueDate() != null) {
-            LocalDateTime dateTimeDueDate = todoDto.getDueDate().atStartOfDay();
-            todo.setDueDate(OffsetDateTime.from(OffsetDateTime.of(dateTimeDueDate, offset)));
-        }
+        todo.setStartDate(todoDto.getStartDate());
+        todo.setEndDate(todoDto.getEndDate());
+        todo.setDueDate(todoDto.getDueDate());
         return todo;
     }
 
@@ -103,9 +90,9 @@ public class TodosExtApiRestController implements TodosApi {
         todoDto.setDescription(todo.getDescription());
         todoDto.setGrp(todo.getGrp());
         todoDto.setStatus(TodoStatus.valueOf(todo.getStatus().toString()));
-        todoDto.setStartDate(todo.getStartDate().toLocalDate());
-        todoDto.setEndDate(todo.getEndDate().toLocalDateTime());
-        todoDto.setDueDate(todo.getDueDate().toLocalDate());
+        todoDto.setStartDate(todo.getStartDate());
+        todoDto.setEndDate(todo.getEndDate());
+        todoDto.setDueDate(todo.getDueDate());
         return todoDto;
     }
 

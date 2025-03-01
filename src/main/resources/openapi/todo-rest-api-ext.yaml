@@ -108,13 +108,13 @@ components:
           type: string
         startDate:
           type: string
-          format: date-time
+          format: date
         endDate:
           type: string
           format: date-time
         dueDate:
           type: string
-          format: date-time
+          format: date
         status:
           type: string
           enum:
