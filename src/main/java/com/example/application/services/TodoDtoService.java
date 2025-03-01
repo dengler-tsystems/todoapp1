@@ -35,8 +35,9 @@ public class TodoDtoService {
             Todo newTodo = new Todo();
             updateEntityData(dto, newTodo, false);
             // saveAndFlush is needed instead of save, if only save is used the DTO will contain the old version value
-            Todo updatedTodoEntity = repository.saveAndFlush(newTodo);
-            return convToDto(updatedTodoEntity);
+            Todo addedTodoEntity = repository.saveAndFlush(newTodo);
+            System.out.println("added todo with id=" + addedTodoEntity.getId());
+            return convToDto(addedTodoEntity);
         } else {
             Optional<Todo> todoEntityRef = repository.findById(dto.getId());
             Todo todoEntityFromDb = todoEntityRef.orElseThrow(RuntimeException::new);
@@ -108,7 +109,7 @@ public class TodoDtoService {
         return result;
     }
 
-    private void updateEntityData(TodoDto todoDto, Todo todo,  boolean withdId) {
+    private void updateEntityData(TodoDto todoDto, Todo todo, boolean withdId) {
         if (withdId) {
             todo.setId(todoDto.getId());
         }

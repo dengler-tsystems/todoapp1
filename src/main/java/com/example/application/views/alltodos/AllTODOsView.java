@@ -47,6 +47,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
 
     private final Grid<TodoDto> grid = new Grid<>(TodoDto.class, false);
 
+    private TextField id;
     private TextField title;
     private TextField description;
     private ComboBox<TodoStatus> status;
@@ -80,6 +81,8 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         add(splitLayout);
 
         // Configure Grid
+        grid.addColumn("id").setAutoWidth(true);
+        grid.addColumn("version").setAutoWidth(true);
         grid.addColumn("title").setAutoWidth(true);
         grid.addColumn("description").setAutoWidth(true);
         grid.addColumn("status").setAutoWidth(true);
@@ -98,7 +101,8 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         grid.setItems(query -> todoService.list(
                 PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
                 .stream());
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        grid.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
+        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 
         // when a row is selected or deselected, populate form
         grid.asSingleSelect().addValueChangeListener(event -> {
@@ -186,6 +190,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
+        id = new TextField("Id");
         title = new TextField("Title");
         description = new TextField("Description");
         status = new ComboBox<>("Status");
@@ -197,7 +202,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         grp = new TextField("Group");
         version = new TextField("Version");
         version.setReadOnly(true);
-        formLayout.add(title, description, status, startDate, dueDate, endDate, grp, version);
+        formLayout.add(id, title, description, status, startDate, dueDate, endDate, grp, version);
 
         editorDiv.add(formLayout);
         createButtonLayout(editorLayoutDiv);

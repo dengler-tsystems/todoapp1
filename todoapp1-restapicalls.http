@@ -1,0 +1,44 @@
+@hostname=localhost
+@port=8080
+
+
+# get page 1
+GET http://{{hostname}}:{{port}}/todos?page=0&size=2
+
+###
+
+# get page 2
+GET http://{{hostname}}:{{port}}/todos?page=1&size=2
+
+###
+
+# get todo 1
+GET http://{{hostname}}:{{port}}/todos/1
+
+###
+
+# get todo -48
+GET http://{{hostname}}:{{port}}/todos/-48
+
+###
+
+# remove todo 1
+DELETE http://{{hostname}}:{{port}}/todos/1
+
+###
+
+# add todo 56
+POST http://{{hostname}}:{{port}}/todos
+Content-Type: application/json
+
+{
+  "title": "todo 56",
+  "description": "descr 56",
+  "grp": "group1",
+  "startDate": "2024-06-07T00:00:00+01:00",
+  "endDate": "2024-12-18T00:00:00+01:00",
+  "dueDate": "2025-03-02T00:00:00+01:00",
+  "status": "DONE"
+}
+
+###

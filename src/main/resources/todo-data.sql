@@ -2,3 +2,9 @@ insert into todoscm.todo(version, id,title,description,status,start_date,due_dat
 insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 2,'todo 2','descr 2','ONGOING','2024-12-18','2025-05-18', null,'group1');
 insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 3,'todo 3','descr 3','DISMISSED','2024-05-03','2027-11-14', null,'group2');
 insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 4,'todo 4','descr 4','PENDING','2024-02-07','2027-10-09', null,'group3');
+insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 5,'todo 5','descr 5','PENDING','2024-02-07','2027-10-09', null,'group3');
+insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 6,'todo 6','descr 6','PENDING','2024-02-07','2027-10-09', null,'group3');
+insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 7,'todo 7','descr 7','PENDING','2024-02-07','2027-10-09', null,'group3');
+insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 8,'todo 8','descr 8','ONGOING','2024-02-07','2027-10-09', null,'group3');
+insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 9,'todo 9','descr 9','DISMISSED','2024-02-07','2027-10-09', null,'group3');
+insert into todoscm.todo(version, id,title,description,status,start_date,due_date,end_date,grp) values (1, 10,'todo 10','descr 10','PENDING','2024-02-07','2027-10-09', null,'group3');
