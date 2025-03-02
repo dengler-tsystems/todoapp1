@@ -38,7 +38,10 @@ public class TodosExtApiRestController implements TodosApi {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<TodoDto> todoPage = todoDtoService.list(pageRequest);
         PagedToDoResponse response = new PagedToDoResponse();
-        response.size(todoPage.getSize());
+        response.setSize(todoPage.getSize());
+        response.setNumber(todoPage.getNumber());
+        response.setTotalPages(todoPage.getTotalPages());
+        response.setTotalElements(todoPage.getTotalElements());
         response.content(conv(todoPage));
         return ResponseEntity.ok(response);
     }

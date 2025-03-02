@@ -135,6 +135,7 @@ components:
             $ref: '#/components/schemas/ToDo'
         totalElements:
           type: integer
+          format: int64
         totalPages:
           type: integer
         size:
