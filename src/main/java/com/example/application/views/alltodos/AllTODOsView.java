@@ -61,6 +61,7 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
     private final Button save = new Button("Save");
     private final Button updateAllTodosToDone = new Button("Update all Todos to done");
     private final Button removeAllTodos = new Button("Remove all Todos");
+    private final Button addSomeTodosAsBatch = new Button("Add some Todos as batch");
 
     private final BeanValidationBinder<TodoDto> binder;
 
@@ -130,6 +131,12 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         removeAllTodos.addClickListener(e -> {
             clearForm();
             todoService.removeAllTodos();
+            refreshGrid();
+        });
+
+        addSomeTodosAsBatch.addClickListener(e -> {
+            clearForm();
+            todoService.addSomeTodosAsBatch();
             refreshGrid();
         });
 
@@ -224,7 +231,8 @@ public class AllTODOsView extends Div implements BeforeEnterObserver {
         buttonLayout.setClassName("button-layout");
         updateAllTodosToDone.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         removeAllTodos.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonLayout.add(updateAllTodosToDone, removeAllTodos);
+        addSomeTodosAsBatch.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonLayout.add(updateAllTodosToDone, removeAllTodos, addSomeTodosAsBatch);
         wrapper.add(buttonLayout);
     }
 

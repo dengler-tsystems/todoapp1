@@ -3,6 +3,7 @@ package com.example.application.services;
 import com.example.application.data.Todo;
 import com.example.application.data.TodoDto;
 import com.example.application.data.TodoRepository;
+import com.example.application.data.TodoStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class TodoDtoService {
-
+    private long batchEntityId = 100;
     private final TodoRepository repository;
 
     public TodoDtoService(TodoRepository repository) {
@@ -80,6 +81,20 @@ public class TodoDtoService {
 
     public int count() {
         return (int) repository.count();
+    }
+
+    public void addSomeTodosAsBatch() {
+        List<Todo> todoBatch = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            Todo todo = new Todo();
+            todo.setTitle("batch-t-" + batchEntityId);
+            todo.setDescription("batch-d-" + batchEntityId);
+            todo.setStatus(TodoStatus.PENDING);
+            todo.setGrp("batch");
+            todoBatch.add(todo);
+            batchEntityId++;
+        }
+        repository.saveAll(todoBatch);
     }
 
     private Page<TodoDto> convToDtoPage(Pageable pageable, Page<Todo> todoPage) {
